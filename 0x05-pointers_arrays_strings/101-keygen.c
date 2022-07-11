@@ -1,35 +1,32 @@
-#include "main.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 /**
- *_atoi - converts a string to an integer.
- *@s: input string.
- *Return: integer.
+ *main - generates keygen.
+ *Return: 0 Always :).
  */
-int _atoi(char *s)
+int main(void)
 {
-	unsigned int count = 0, size = 0, oi = 0, pn = 1, m = 1, i;
+	int pass[100];
+	int i, sum, n;
 
-	while (*(s + count) != '\0')
+	sum = 0;
+
+	srand(time(NULL));
+
+	for (i = 0; i < 100; i++)
 	{
-		if (size > 0 && (*(s + count) < '0' || *(s + count) > '9'))
-			break;
-
-		if (*(s + count) == '-')
-			pn *= -1;
-
-		if ((*(s + count) >= '0') && (*(s + count) <= '9'))
+		pass[i] = rand() % 78;
+		sum += (pass[i] + '0');
+		putchar(pass[i] + '0');
+		if ((2772 - sum) - '0' < 78)
 		{
-			if (size > 0)
-				m *= 10;
-			size++;
+			n = 2772 - sum - '0';
+			sum += n;
+			putchar(n + '0');
+			break;
 		}
-		count++;
 	}
-
-	for (i = count - size; i < count; i++)
-	{
-		oi = oi + ((*(s + i) - 48) * m);
-		m /= 10;
-	}
-	return (oi * pn);
+	return (0);
 }
