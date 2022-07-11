@@ -2,13 +2,14 @@
 #include <stdio.h>
 
 /**
- * main - check the code
  *
- * Return: Always 0.
+ *rev_string - reverse a string
+ *@s: input string.
+ *Return: no return :(
  */
-int main(void)
+void rev_string(char *s)
 {
-    char s[10] = "My School";
+    char s[5] = "Today";
 
     printf("%s\n", s);
     rev_string(s);
