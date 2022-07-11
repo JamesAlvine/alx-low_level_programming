@@ -1,16 +1,11 @@
-/**
- * File name: 1-swap.c
- */
 
-#include "swap.h"
+#include "main.h"
 
 /**
- * swap_int: swapt the two integers.
- * 
- * @dest: first integer.
- * @b: second integer.
- *
- * Return: function that swaps the values of two integers.
+ *swap_int - swaps the values of two integers.
+ *@a: first integer.
+ *@b: secodn integer.
+ *Return: no return.
  */
 void swap_int(int *a, int *b)
 {
