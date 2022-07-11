@@ -9,7 +9,7 @@
  */
 void rev_string(char *s)
 {
-    char s[5] = "Today";
+    char [5] = "Today";
 
     printf("%s\n", s);
     rev_string(s);
