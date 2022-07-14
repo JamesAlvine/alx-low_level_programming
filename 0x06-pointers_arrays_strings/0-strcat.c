@@ -1,17 +1,26 @@
 #include "main.h"
-
 /**
- * main - check the code
- *
- * Return: Always 0.
- *
+ *_strcat - It concatenates two strings.
+ *@dest: the destination string we append to.
+ *@src: the source string we add to.
+ *Return: A pointer to dest, i.e the resulting string. :)
  */
-
 char *_strcat(char *dest, char *src)
 {
-	char s1[98] = "hello";
-	char s2[] = "world!\n";
-	strcat(s1,s20;
-			printf("Concateneted String: %s\n",s1);
-			return 0;
+	int i = 0, j = 0;
+
+	while (*(dest + i) != '\0')
+	{
+		i++;
+	}
+
+	while (j >= 0)
+	{
+		*(dest + i) = *(src + j);
+		if (*(src + j) == '\0')
+			break;
+		i++;
+		j++;
+	}
+	return (dest);
 }
