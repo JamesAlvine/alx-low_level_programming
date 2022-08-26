@@ -1,51 +1,50 @@
 #include "main.h"
+#define MAXSIZE 1204
+#define SE STDERR_FILENO
 
 /**
- *main - copies the content of a file to another file
- *@argc: number of arguments passed to the program
- *@argv: array of arguments
- *Return: Always 0
+ * main - create the copy bash script
+ * @ac: argument count
+ * @av: arguments as strings
+ * Return: 0
  */
-int main(int argc, char *argv[])
+int main(int ac, char *av[])
 {
-	int dfr, dfw, k, l, m;
-	char buf[BUFSIZ];
+	int input_fd, output_fd, istatus, ostatus;
+	char buf[MAXSIZE];
+	mode_t mode;
 
-	if (argc != 3)
-	{
-		dprintf(STDERR_FILENO, "Usage: cp fil_frm fil_t\n");
-		exit(97);
-	}
-	dfr = open(argv[1], O_RDONLY);
-	if (dfr < 0)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-		exit(98);
-	}
-	dfw = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
-	while ((r = read(dfr, buf, BUFSIZ)) > 0)
-	{
-		if (dfw < 0 || write(dfw, buf, k) != k)
+	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
+	if (ac != 3)
+		dprintf(SE, "Usage: cp file_from file_to\n"), exit(97);
+	input_fd = open(av[1], O_RDONLY);
+	if (input_fd == -1)
+		dprintf(SE, "Error: Can't read from file %s\n", av[1]), exit(98);
+	output_fd = open(av[2], O_CREAT | O_WRONLY | O_TRUNC, mode);
+	if (output_fd == -1)
+		dprintf(SE, "Error: Can't write to %s\n", av[2]), exit(99);
+	do {
+		istatus = read(input_fd, buf, MAXSIZE);
+		if (istatus == -1)
 		{
-			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-			close(dfr);
-			exit(99);
+			dprintf(SE, "Error: Can't read from file %s\n", av[1]);
+			exit(98);
 		}
-	}
-	if (k < 0)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-		exit(98);
-	}
-	l = close(dfr);
-	m = close(dfw);
-	if (l < 0 || m < 0)
-	{
-		if (l < 0)
-			dprintf(STDERR_FILENO, "Error: Can't close df %d\n", dfr);
-		if (m < 0)
-			dprintf(STDERR_FILENO, "Error: Can't close df %d\n", dfw);
-		exit(100);
-	}
+		if (istatus > 0)
+		{
+			ostatus = write(output_fd, buf, (ssize_t) istatus);
+			if (ostatus == -1)
+			{
+				dprintf(SE, "Error: Can't write to %s\n", av[2]);
+				exit(99);
+			}
+		}
+	} while (istatus > 0);
+	istatus = close(input_fd);
+	if (istatus == -1)
+		dprintf(SE, "Error: Can't close fd %d\n", input_fd), exit(100);
+	ostatus = close(output_fd);
+	if (ostatus == -1)
+		dprintf(SE, "Error: Can't close fd %d\n", output_fd), exit(100);
 	return (0);
 }
